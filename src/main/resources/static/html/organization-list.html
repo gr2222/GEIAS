@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>毕业生就业信息分析平台(GEIAS)</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="/css/font.css">
+    <link rel="stylesheet" href="/css/xadmin.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/xadmin.js"></script>
+</head>
+
+<body>
+<div class="x-nav">
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <div class="layui-form-item">
+
+                    </div>
+                </div>
+                <div class="layui-card-header">
+                    <button class="layui-btn" onclick="xadmin.open('添加学院','/page/collegeadd',600,400)"><i
+                            class="layui-icon"></i>添加
+                    </button>
+                </div>
+                <div class="layui-card-body ">
+                    <table class="layui-table layui-form" style="width: 1100px">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>学院名字</th>
+                            <th>管理员ID</th>
+                            <th>管理员姓名</th>
+                            <th>总人数</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="list" style="width: 80%">
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="layui-card-body ">
+                    <div class="page">
+                        <div id="page">
+                            <div id="pagecount"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function college_del(collegeId) {
+        var url = '/organizationcontroller/delcollege?collegeId=' + collegeId;
+        layer.alert("删除学院将会删除学院下的所有:就业记录、人员、专业、班级", {
+                icon: 6
+            },
+            function () {
+                $.ajax({
+                    url: url,
+                    type: "get",
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        if (data.success) {
+                            layer.alert('删除成功', {
+                                icon: 6
+                            });
+                            location.reload();
+                        } else {
+                            layer.alert(data.errMsg, {
+                                icon: 6
+                            });
+                        }
+                    }
+                });
+            });
+    }
+
+    $(function () {
+
+        getlist();
+
+        function getlist() {
+            var url = '/organizationcontroller/getcollegelist';
+
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.success) {
+                        setlist(data);
+                    } else {
+                        layer.alert(data.errMsg, {
+                            icon: 6
+                        });
+                    }
+                }
+            });
+
+        }
+
+        function setlist(data) {
+            var html = '';
+            data.List.map(function (item, index) {
+                html += '<tr>\n' +
+                    '                                    <td>' + item.college.collegeId + '</td>\n' +
+                    '                                    <td>' + item.college.collegeName + '</td>\n' +
+                    '                                    <td>' + item.personInfo.personId + '</td>\n' +
+                    '                                    <td>' + item.personInfo.personName + '</td>\n' +
+                    '                                    <td>' + item.sum + '</td>\n' +
+                    '                                    <td class="td-manage">\n' +
+                    '                                      <a title="编辑"  onclick="xadmin.open(\'编辑\',\'/page/collegeedit?collegeId=' + item.college.collegeId + '&personName=' + item.personInfo.personName + '&collegeName=' + item.college.collegeName + '\',600,400)" href="javascript:;">\n' +
+                    '                                        <i class="layui-icon">&#xe642;</i>\n' +
+                    '                                      </a>\n' +
+                    '                                      <a title="删除" onclick="college_del(' + item.college.collegeId + ')" href="javascript:;">\n' +
+                    '                                        <i class="layui-icon">&#xe640;</i>\n' +
+                    '                                      </a>\n' +
+                    '                                    </td>\n' +
+                    '                                  </tr>'
+            });
+            $("#list").html(html);
+        }
+
+//:selected
+        layui.use(['laydate', 'form'],
+            function () {
+                var laydate = layui.laydate;
+
+                //执行一个laydate实例
+                laydate.render({
+                    elem: '#start' //指定元素
+                });
+
+                //执行一个laydate实例
+                laydate.render({
+                    elem: '#end' //指定元素
+                });
+            });
+
+    });
+</script>
+
+</html>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gr.geias.mapper.EmploymentInformationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gr.geias.entity.EmploymentInformation">
+        <id column="information_id" property="informationId"/>
+        <result column="student_num" property="studentNum"/>
+        <result column="name" property="name"/>
+        <result column="salary" property="salary"/>
+        <result column="gender" property="gender"/>
+        <result column="msg" property="msg"/>
+        <result column="create_time" property="createTime"/>
+        <association property="area" column="area_id" javaType="com.gr.geias.entity.Area">
+            <id column="area_id" property="areaId"/>
+            <result column="area_name" property="areaName"/>
+        </association>
+        <association property="classGrade" column="class_id" javaType="com.gr.geias.entity.ClassGrade">
+            <id column="class_id" property="classId"/>
+            <result column="class_name" property="className"/>
+        </association>
+        <association property="unitKind" column="unit_id" javaType="com.gr.geias.entity.UnitKind">
+            <id column="unit_id" property="unitId"/>
+            <result column="unit_name" property="unitName"/>
+        </association>
+        <association property="employmentWay" column="employment_way_id" javaType="com.gr.geias.entity.EmploymentWay">
+            <id column="employment_way_id" property="employmentWayId"/>
+            <result column="vay_name" property="vayName"/>
+        </association>
+        <association property="college" column="college_id" javaType="com.gr.geias.entity.College">
+            <id column="college_id" property="collegeId"/>
+            <result column="college_name" property="collegeName"/>
+        </association>
+        <association property="specialty" column="specialty_id" javaType="com.gr.geias.entity.Specialty">
+            <id column="specialty_id" property="specialtyId"/>
+            <result column="specialty_name" property="specialtyName"/>
+        </association>
+    </resultMap>
+
+
+    <select id="queryList" resultMap="BaseResultMap">
+        select
+        i.information_id,
+        i.student_num,
+        i.name,
+        i.salary,
+        i.msg,
+        i.create_time,
+        i.gender,
+        a.area_id,
+        a.area_name,
+        cl.class_id,
+        cl.class_name,
+        co.college_id,
+        co.college_name,
+        w.employment_way_id,
+        w.vay_name,
+        k.unit_id,
+        k.unit_name,
+        s.specialty_id,
+        s.specialty_name
+        from tb_employment_information i,
+        tb_area a,
+        tb_class_grade cl,
+        tb_college co,
+        tb_employment_way w,
+        tb_unit_kind k,
+        tb_specialty s
+        <where>i.class_id = cl.class_id
+            and i.area_id = a.area_id
+            and i.unit_id = k.unit_id
+            and i.employment_way_id = w.employment_way_id
+            and i.college_id = co.college_id
+            and i.specialty_id = s.specialty_id
+            <if test=" user != null and user.enableStatus==0">
+                and cl.admin_id=#{user.personId}
+            </if>
+            <if test=" user != null and user.enableStatus==1">
+                and co.admin_id=#{user.personId}
+            </if>
+            <if test="info!=null and info.area!=null and info.area.parentId!=null">
+                and a.parent_id=#{info.area.parentId}
+            </if>
+            <if test="info!=null and info.area!=null and info.area.areaId!=null">
+                and a.area_id=#{info.area.areaId}
+            </if>
+            <if test="info!=null and info.college!=null and info.college.collegeId!=null">
+                and co.college_id=#{info.college.collegeId}
+            </if>
+            <if test="info!=null and info.employmentWay!=null and info.employmentWay.employmentWayId!=null">
+                and w.employment_way_id=#{info.employmentWay.employmentWayId}
+            </if>
+            <if test="info!=null and info.specialty!=null and info.specialty.specialtyId!=null">
+                and s.specialty_id=#{info.specialty.specialtyId}
+            </if>
+            <if test="info!=null and info.unitKind!=null and info.unitKind.unitId!=null">
+                and k.unit_id=#{info.unitKind.unitId}
+            </if>
+            <if test="info!=null and info.classGrade!=null and info.classGrade.classId!=null">
+                and cl.class_id=#{info.classGrade.classId}
+            </if>
+            <if test="info!=null and info.name!=null">
+                and i.name like '%${info.name}%'
+            </if>
+            <if test="salary!=null and salary.length==2">
+                and i.salary &gt; #{salary[0]} and i.salary &lt;#{salary[1]}
+            </if>
+        </where>
+        order by information_id
+        limit #{indexnum},#{pagesize}
+    </select>
+    <select id="queryListCount" resultType="int">
+        select
+        count(*)
+        from tb_employment_information i,
+        tb_area a,
+        tb_class_grade cl,
+        tb_college co,
+        tb_employment_way w,
+        tb_unit_kind k,
+        tb_specialty s
+        <where>i.class_id = cl.class_id
+            and i.area_id = a.area_id
+            and i.unit_id = k.unit_id
+            and i.employment_way_id = w.employment_way_id
+            and i.college_id = co.college_id
+            and i.specialty_id = s.specialty_id
+            <if test=" user != null and user.enableStatus==0">
+                and cl.admin_id=#{user.personId}
+            </if>
+            <if test=" user != null and user.enableStatus==1">
+                and co.admin_id=#{user.personId}
+            </if>
+            <if test="info!=null and info.area!=null and info.area.parentId!=null">
+                and a.parent_id=#{info.area.parentId}
+            </if>
+            <if test="info!=null and info.area!=null and info.area.areaId!=null">
+                and a.area_id=#{info.area.areaId}
+            </if>
+            <if test="info!=null and info.college!=null and info.college.collegeId!=null">
+                and co.college_id=#{info.college.collegeId}
+            </if>
+            <if test="info!=null and info.employmentWay!=null and info.employmentWay.employmentWayId!=null">
+                and w.employment_way_id=#{info.employmentWay.employmentWayId}
+            </if>
+            <if test="info!=null and info.specialty!=null and info.specialty.specialtyId!=null">
+                and s.specialty_id=#{info.specialty.specialtyId}
+            </if>
+            <if test="info!=null and info.unitKind!=null and info.unitKind.unitId!=null">
+                and k.unit_id=#{info.unitKind.unitId}
+            </if>
+            <if test="info!=null and info.classGrade!=null and info.classGrade.classId!=null">
+                and cl.class_id=#{info.classGrade.classId}
+            </if>
+            <if test="info!=null and info.name!=null">
+                and i.name like '%${info.name}%'
+            </if>
+            <if test="salary!=null and salary.length==2">
+                and i.salary <![CDATA[  >=  ]]> #{salary[0]} and i.salary &lt;#{salary[1]}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertEmploymentInformation" useGeneratedKeys="true" keyColumn="information_id"
+            keyProperty="informationId">
+        insert into tb_employment_information
+        (student_num, name, class_id, area_id, unit_id, salary, employment_way_id,create_time, gender, college_id, specialty_id)
+        values (#{info.studentNum},#{info.name},#{info.classGrade.classId},#{info.area.areaId},#{info.unitKind.unitId},#{info.salary},#{info.employmentWay.employmentWayId},#{info.createTime},#{info.gender},#{info.college.collegeId},#{info.specialty.specialtyId});
+    </insert>
+
+    <delete id="delEmploymentInformation" parameterType="com.gr.geias.entity.EmploymentInformation">
+        delete from tb_employment_information
+        <where>
+            <if test="info.classGrade!=null and info.classGrade.classId!=null">
+                class_id = #{info.classGrade.classId}
+            </if>
+            <if test="info.specialty!=null and info.specialty.specialtyId!=null">
+                specialty_id =#{info.specialty.specialtyId}
+            </if>
+            <if test="info.college!=null and info.college.collegeId!=null">
+                college_id = #{info.college.collegeId}
+            </if>
+        </where>
+    </delete>
+    <update id="updayeInfo" parameterType="com.gr.geias.entity.EmploymentInformation">
+        update tb_employment_information
+        <set>
+            <if test="info.studentNum!=null">
+                student_num=#{info.studentNum},
+            </if>
+            <if test="info.name!=null">
+                name = #{info.name},
+            </if>
+            <if test="info.classGrade!=null and info.classGrade.classId!=null">
+                class_id=#{info.classGrade.classId},
+            </if>
+            <if test="info.area!=null and info.area.areaId!=null">
+                area_id = #{info.area.areaId},
+            </if>
+            <if test="info.unitKind!=null and info.unitKind.unitId!=null">
+                unit_id=#{info.unitKind.unitId},
+            </if>
+            <if test="info.salary!=null">
+                salary=#{info.salary},
+            </if>
+            <if test="info.employmentWay!=null and info.employmentWay.employmentWayId!=null">
+                employment_way_id=#{info.employmentWay.employmentWayId},
+            </if>
+            <if test="info.msg!=null">
+                msg = #{info.msg},
+            </if>
+            <if test="info.gender!=null">
+                gender=#{info.gender},
+            </if>
+            <if test="info.college!=null and info.college.collegeId!=null">
+                college_id=#{info.college.collegeId},
+            </if>
+            <if test="info.specialty!=null and info.specialty.specialtyId!=null">
+                specialty_id=#{info.specialty.specialtyId},
+            </if>
+        </set>
+        where information_id=#{info.informationId}
+    </update>
+</mapper>

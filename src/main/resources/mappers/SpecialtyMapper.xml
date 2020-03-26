@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gr.geias.mapper.SpecialtyMapper">
+    <select id="querySpecialty" resultType="com.gr.geias.entity.Specialty">
+        select * from tb_specialty
+        <where>
+            <if test="collegeId!=null">
+                college_id = #{collegeId}
+            </if>
+        </where>
+    </select>
+
+
+    <update id="insertSpecialty" parameterType="com.gr.geias.entity.Specialty" useGeneratedKeys="true"
+            keyColumn="specialty_id"
+            keyProperty="specialtyId">
+        insert into tb_specialty(specialty_name,create_time,college_id) values(#{specialty.specialtyName},#{specialty.createTime},#{specialty.collegeId})
+    </update>
+
+    <select id="queryCountSpecialty" resultType="int">
+select
+    SUM(n.sum)
+from
+      tb_specialty s,
+      tb_organization_num n,
+      tb_class_grade cg
+where s.specialty_id = cg.specialty_id
+  and cg.class_id = n.class_id
+  and s.specialty_id=#{specialtyId};
+    </select>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gr.geias.mapper.PersonInfoMapper">
+    <update id="updatePerseonofCollege" parameterType="com.gr.geias.entity.PersonInfo">
+    update tb_person_info set college_id=#{personInfo.collegeId} where person_id=#{personInfo.personId}
+</update>
+    <update id="updatePerson" parameterType="com.gr.geias.entity.PersonInfo">
+        update tb_person_info
+        <set>
+            person_name=#{person.personName},
+            <if test="person.collegeId!=null">
+                college_id=#{person.collegeId},
+            </if>
+            username=#{person.username},
+            password=#{person.password}
+        </set>
+
+        where person_id=#{person.personId}
+    </update>
+</mapper>

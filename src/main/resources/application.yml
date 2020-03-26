@@ -1,0 +1,36 @@
+spring:
+  mvc:
+    static-path-pattern=/static/**
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      #47.100.95.69
+      # root 123456 / gr QweWqeEqw123
+      #localhost
+      # root 123456
+      url: jdbc:mysql://localhost:3306/GraduateEmploymentInfo?useUnicode=true&characterEncoding=utf8
+      username: root
+      password: 123456
+      filter: stat,wall,log4j
+      initial-size: 5
+      max-active: 20
+      min-idle: 5
+      max-wait: 2000
+      pool-prepared-statements: false
+      max-open-prepared-statements: -1
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+#mybatis配置
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.gr.geias.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    use-generated-keys: true
+    use-column-label: true
+logging:
+  level:
+    com:
+      looedu:
+        mapper: debug

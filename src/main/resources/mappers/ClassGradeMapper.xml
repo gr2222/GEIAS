@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gr.geias.mapper.ClassGradeMapper">
+
+    <select id="queryClassGrade" resultType="com.gr.geias.entity.ClassGrade">
+        select * from tb_class_grade
+        <where>
+            <if test="adminId!=null">
+                admin_id=#{adminId}
+            </if>
+            <if test="specialtyId!=null">
+                specialty_id=#{specialtyId}
+            </if>
+        </where>
+    </select>
+    <insert id="insertClassGrede" parameterType="com.gr.geias.entity.ClassGrade" useGeneratedKeys="true"
+            keyProperty="classId" keyColumn="class_id">
+        insert into tb_class_grade(class_name,specialty_id,create_time,admin_id) values(#{classGrede.className},#{classGrede.specialtyId},#{classGrede.createTime},#{classGrede.adminId})
+    </insert>
+</mapper>

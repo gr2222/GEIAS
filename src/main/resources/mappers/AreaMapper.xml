@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gr.geias.mapper.AreaMapper">
+
+    <select id="queryArea" resultType="com.gr.geias.entity.Area">
+        select
+        area_id,
+        area_name
+        from tb_area
+        <where>
+            <if test="area==null">
+                and parent_id is NULL
+            </if>
+            <if test="area!=null and area.areaId!=null">
+                and area_id=#{area.areaId}
+            </if>
+            <if test="area!=null and area.parentId!=null">
+                and parent_id=#{area.parentId}
+            </if>
+        </where>
+    </select>
+</mapper>

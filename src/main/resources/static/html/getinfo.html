@@ -1,0 +1,343 @@
+<!doctype html>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>毕业生就业信息分析平台(GEIAS)</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="/css/font.css">
+    <link rel="stylesheet" href="/css/from1.css">
+    <link rel="stylesheet" href="/css/xadmin.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui/layui.js" charset="utf-8"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="login-bg">
+<div class="login1  layui-anim-up">
+    <div class="message">毕业生就业信息分析平台(GEIAS)-收集信息</div>
+    <div id="darkbannerwrap"></div>
+    <form class="layui-form" action="" onsubmit="return false" style="width: 800px">
+        <div class="layui-form-item">
+            <label class="layui-form-label">学号</label>
+            <div class="layui-input-block">
+                <input type="text" name="studentNum" required lay-verify="required" placeholder="请输入学号"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required lay-verify="required" placeholder="请输入姓名" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+                <input type="radio" name="gender" value="1" title="男">
+                <input type="radio" name="gender" value="0" title="女" checked>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否就业</label>
+            <div class="layui-input-block">
+                <input type="radio" name="jiuye" lay-filter="jiuye" value="1" title="以就业">
+                <input type="radio" name="jiuye" lay-filter="jiuye" value="0" title="未就业" checked>
+            </div>
+        </div>
+        <div id="yijiuye" style="display:none">
+            <div class="layui-form-item">
+                <label class="layui-form-label">学院</label>
+                <div class="layui-input-block">
+                    <select id="college" name="college" lay-filter="college" lay-verify="required" lay-search>
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">专业</label>
+                <div class="layui-input-block">
+                    <select id="specialty" name="specialty" lay-filter="specialty" lay-verify="required" lay-search>
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">班级</label>
+                <div class="layui-input-block">
+                    <select id="classgrade" name="classgrade" lay-verify="required" lay-search>
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">就业地区</label>
+                <div class="layui-input-block">
+                    <select id="area" name="area" lay-verify="required" lay-search>
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">职业属性</label>
+                <div class="layui-input-block">
+                    <select id="unitkind" name="unitkind" lay-verify="required" lay-search>
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">就业来源</label>
+                <div class="layui-input-block">
+                    <select id="employmentway" name="employmentway" lay-verify="required" lay-search>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">工资</label>
+                <div class="layui-input-block">
+                    <input id="salary" type="text" name="salary" required lay-verify="required" placeholder="请输入输入框内容"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        form.on('submit(formDemo)', function (data) {
+            var field = data.field;
+            var jiuye = field.jiuye;
+            if (jiuye == 0) {
+                layer.alert("提交成功", {
+                    icon: 5,
+                    title: "成功"
+                });
+            } else {
+                var studentNum = field.studentNum;
+                var name = field.name;
+                var gender = field.gender;
+                var college = field.college;
+                var specialty = field.specialty;
+                var classgrade = field.classgrade;
+                var area = field.area;
+                var unitkind = field.unitkind;
+                var employmentway = field.employmentway;
+                var salary = field.salary;
+                var fromData = new FormData();
+                fromData.append("studentNum", studentNum);
+                fromData.append("name", name);
+                fromData.append("gender", gender);
+                fromData.append("jiuye", jiuye);
+                fromData.append("collegeId", college);
+                fromData.append("specialtyId", specialty);
+                fromData.append("classId", classgrade);
+                fromData.append("areaId", area);
+                fromData.append("unitId", unitkind);
+                fromData.append("employmentwayId", employmentway);
+                fromData.append("salary", salary);
+                intoinfo(null);
+
+                function intoinfo(update) {
+                    var url = '/info/addemploymentinfo';
+                    if (update != null) {
+                        url += '?update=' + update;
+                    }
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: fromData,
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.success) {
+                                layer.alert("提交成功", {
+                                    icon: 6,
+                                    title: "成功"
+                                });
+                            } else {
+                                if (data.writed) {
+                                    layer.alert(data.errMsg, {
+                                            icon: 6
+                                        },
+                                        function () {
+                                            intoinfo(true);
+                                        });
+                                } else {
+                                    layer.alert(data.errMsg, {
+                                        icon: 5,
+                                        title: "错误"
+                                    });
+                                }
+                            }
+                        }
+
+                    });
+                }
+            }
+        });
+        getInitData();
+
+        getunitAndway();
+
+        function getInitData() {
+            var url = '/info/getcollege';
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.success) {
+                        initData(data);
+
+                    } else {
+                        layer.alert(data.errMsg, {
+                            icon: 6
+                        });
+                    }
+                }
+            });
+        }
+
+        function initData(data) {
+            var html = '';
+            data.collegeList.map(function (item, index) {
+                html += '<option value="' + item.collegeId + '">' + item.collegeName + '</option>';
+            });
+            $("#college").html(html);
+            form.render('select');
+        }
+
+        function getspecualty(collegeId, form) {
+            var url = '/info/getspecialty?collegeId=' + collegeId;
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.success) {
+                        var html = '';
+                        data.specialtyList.map(function (item, index) {
+                            html += '<option value="' + item.specialtyId + '">' + item.specialtyName + '</option>';
+                        });
+                        $("#specialty").html(html);
+                        form.render('select');
+                    } else {
+                        layer.alert(data.errMsg, {
+                            icon: 6
+                        });
+                    }
+                }
+            });
+        }
+
+        function getclassgrade(specialtyId) {
+            var url = '/info/getclassgrade?specialtyId=' + specialtyId;
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.success) {
+                        var html = '';
+                        data.classGradeList.map(function (item, index) {
+                            html += '<option value="' + item.classId + '">' + item.className + '</option>';
+                        });
+                        $("#classgrade").html(html);
+                        form.render('select');
+                    } else {
+                        layer.alert(data.errMsg, {
+                            icon: 6
+                        });
+                    }
+                }
+            });
+        }
+
+        function getunitAndway() {
+            var url = '/info/getinit';
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.success) {
+                        initUnitAndWay(data);
+                    } else {
+                        layer.alert(data.errMsg, {
+                            icon: 6
+                        });
+                    }
+                }
+            });
+        }
+
+        function initUnitAndWay(data) {
+            var html = '';
+            data.areaList.map(function (item, index) {
+                html += '<option value="' + item.areaId + '">' + item.areaName + '</option>';
+            });
+            $("#area").html(html);
+            html = '';
+            data.employmentWayList.map(function (item, index) {
+                html += '<option value="' + item.employmentWayId + '">' + item.vayName + '</option>';
+            });
+            $("#employmentway").html(html);
+
+            html = '';
+            data.unitKindList.map(function (item, index) {
+                html += '<option value="' + item.unitId + '">' + item.unitName + '</option>';
+            });
+            $("#unitkind").html(html);
+            form.render('select');
+        }
+
+        form.on('select(college)', function (data) {
+            console.log(data);
+            getspecualty(data.value, form);
+        });
+
+        form.on('select(specialty)', function (data) {
+            console.log(data);
+            getclassgrade(data.value, form);
+        });
+
+        form.on('radio(jiuye)', function (data) {
+            if (data.value == 1) {
+                $("#yijiuye").show();
+                $("#weijiuye").hide();
+                form.render('select');
+            } else {
+                $("#yijiuye").hide();
+                $("#weijiuye").show();
+                form.render('select');
+            }
+        });
+    })
+    ;
+</script>
+</body>
+</html>
