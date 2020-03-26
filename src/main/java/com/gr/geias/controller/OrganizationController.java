@@ -861,7 +861,7 @@ public class OrganizationController {
     public Map<String,Object> getOrganizationInfo(){
         List<College> collegeList = collegeService.getCollege(null);
         Map<String,Object> school = new HashMap<>(4);
-        school.put("name", "重庆大学城市科技学院");
+        school.put("name", "XXX大学");
         school.put("symbolSize", 100);
         school.put("draggable", true);
         school.put("value", 27);
@@ -886,7 +886,7 @@ public class OrganizationController {
             collegeOrganization.put("x", 1);
             collegeOrganization.put("y", -125);
             data.add(collegeOrganization);
-            collegeLinks.put("source", "重庆大学城市科技学院");
+            collegeLinks.put("source", "XXX大学");
             collegeLinks.put("target", college.getCollegeName());
             links.add(collegeLinks);
             collegeCategories.put("name", college.getCollegeName());
