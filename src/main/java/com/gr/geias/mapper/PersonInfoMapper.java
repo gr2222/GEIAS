@@ -98,5 +98,8 @@ public interface PersonInfoMapper {
      */
     @Select("select * from tb_person_info where enable_Status =1")
     List<PersonInfo> queryPerson1();
+
+    @Update("update tb_person_info set face_token = #{faceToken} where person_id = #{personId}")
+    Integer updatePersonById(@Param("personId") Integer personId,@Param("faceToken") String faceToken);
 }
 

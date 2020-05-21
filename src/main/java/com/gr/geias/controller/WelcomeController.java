@@ -154,7 +154,8 @@ public class WelcomeController {
                 College college = collegeList.get(i);
                 EmploymentInformation employmentInformation = new EmploymentInformation();
                 employmentInformation.setCollege(college);
-                Integer count = employmentInformationService.getCount(employmentInformation, null, null);
+                Integer count = employmentInformationService.getCount(employmentInformation,
+                        null, null);
                 Integer integer = organizationNumService.getcollegeCount(college.getCollegeId());
                 float ratio =0f;
                 if (integer!=0){
@@ -170,7 +171,8 @@ public class WelcomeController {
                 Specialty specialty = specialtyList.get(i);
                 EmploymentInformation employmentInformation = new EmploymentInformation();
                 employmentInformation.setSpecialty(specialty);
-                Integer count = employmentInformationService.getCount(employmentInformation, null, null);
+                Integer count = employmentInformationService.getCount(employmentInformation,
+                        null, null);
                 Integer integer = organizationNumService.getspecialtyCount(specialty.getSpecialtyId());
                 float ratio =0f;
                 if (integer!=0){
@@ -181,12 +183,14 @@ public class WelcomeController {
             }
         }
         if (person.getEnableStatus() == EnableStatusEnums.TEACHER.getState()) {
-            List<ClassGrade> classGradeList = classGradeService.getClassGrade(null, person.getPersonId());
+            List<ClassGrade> classGradeList = classGradeService.getClassGrade(null,
+                    person.getPersonId());
             for (int i = 0; i < classGradeList.size(); i++) {
                 ClassGrade classGrade = classGradeList.get(i);
                 EmploymentInformation employmentInformation = new EmploymentInformation();
                 employmentInformation.setClassGrade(classGrade);
-                Integer count = employmentInformationService.getCount(employmentInformation, null, null);
+                Integer count = employmentInformationService.getCount(employmentInformation,
+                        null, null);
                 Integer integer = organizationNumService.getClassGradeCount(classGrade.getClassId());
                 float ratio =0f;
                 if (integer!=0){

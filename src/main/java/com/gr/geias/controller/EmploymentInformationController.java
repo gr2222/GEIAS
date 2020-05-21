@@ -111,7 +111,8 @@ public class EmploymentInformationController {
             a[0] = Integer.parseInt(split[0]);
             a[1] = Integer.parseInt(split[1]);
         }
-        EmploymentInformationMsg employmentInfoList = informationService.getEmploymentInfoList(employmentInformation, pageNum, person, a);
+        EmploymentInformationMsg employmentInfoList =
+                informationService.getEmploymentInfoList(employmentInformation, pageNum, person, a);
         if (employmentInfoList.getSuccess()){
             map.put("success", true);
             map.put("list", employmentInfoList.getList());

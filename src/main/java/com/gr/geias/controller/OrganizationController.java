@@ -488,12 +488,14 @@ public class OrganizationController {
                                                 @RequestParam("specialtyId") Integer specialtyId,
                                                 @RequestParam("sum") Integer sum) {
         Map<String, Object> map = new HashMap<>(3);
-        if (classId == null || personId == null || classGradeName == null || collegeId == null || specialtyId == null || sum == null) {
+        if (classId == null || personId == null || classGradeName == null || collegeId == null
+                || specialtyId == null || sum == null) {
             map.put("success", false);
             map.put("errMsg", "信息输入错误!");
             return map;
         }
-        if (classId == 0 || personId == 0 || classGradeName.equals("") || collegeId == 0 || specialtyId == 0 || sum <= 0) {
+        if (classId == 0 || personId == 0 || classGradeName.equals("") || collegeId == 0
+                || specialtyId == 0 || sum <= 0) {
             map.put("success", false);
             map.put("errMsg", "信息输入错误!");
             return map;

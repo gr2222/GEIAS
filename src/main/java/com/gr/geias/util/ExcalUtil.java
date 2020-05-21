@@ -29,7 +29,9 @@ public class ExcalUtil {
 
     private final static String TAG = "on";
 
-    public void createExcal(HttpServletResponse response, PersonInfo personInfo, Set<String> excludeColumnFiledNames) throws IOException {
+    public void createExcal(HttpServletResponse response,
+                            PersonInfo personInfo,
+                            Set<String> excludeColumnFiledNames) throws IOException {
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
         SimpleDateFormat sdf = new SimpleDateFormat();
@@ -38,7 +40,10 @@ public class ExcalUtil {
 
         String fileName = URLEncoder.encode("毕业生就业信息" + format, "UTF-8");
         response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
-        ExcelWriter excelWriter = EasyExcel.write(response.getOutputStream(), EmploymentInformationExcal.class).excludeColumnFiledNames(excludeColumnFiledNames).build();
+        ExcelWriter excelWriter = EasyExcel.write(
+                response.getOutputStream(),
+                EmploymentInformationExcal.class)
+                .excludeColumnFiledNames(excludeColumnFiledNames).build();
         WriteSheet writeSheet = EasyExcel.writerSheet("信息1").build();
         Integer integer = employmentInformationMapper.queryListCount(null, personInfo, null);
         Integer num = (integer / 100) + 1;
@@ -90,7 +95,9 @@ public class ExcalUtil {
     private List getdata(Integer num, PersonInfo personInfo) {
         List<EmploymentInformationExcal> list = new ArrayList<>();
         int indexNum = PageMath.pageNumtoRowIndex(num, 100);
-        List<EmploymentInformation> employmentInformations = employmentInformationMapper.queryList(null, indexNum, 100, personInfo, null);
+        List<EmploymentInformation> employmentInformations =
+                employmentInformationMapper.queryList(null, indexNum,
+                        100, personInfo, null);
         for (int i = 0; i < employmentInformations.size(); i++) {
             EmploymentInformation info = employmentInformations.get(i);
             EmploymentInformationExcal infoExcal = getInfoExal(info);

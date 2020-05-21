@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="/css/xadmin.css">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script src="/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/xadmin.js"></script>
+
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -29,7 +31,9 @@
         <hr class="hr15">
         <input name="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">
         <hr class="hr15">
-        <input id="submit" value="登录" lay-submit lay-filter="login" style="width:100%;" type="button">
+        <input type="button" value="人脸登录"  onclick="xadmin.open('人脸识别','/page/faseLogin',425,600)">
+        <br>
+        <input id="submit" value="登录" lay-submit lay-filter="login" style="width:100%; padding-top: 3px" type="button">
         <hr class="hr20">
     </form>
 </div>

@@ -1,6 +1,7 @@
 package com.gr.geias.service;
 
 import com.gr.geias.entity.PersonInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -67,5 +68,16 @@ public interface PersonInfoService {
      * @return
      */
     List<PersonInfo> getPerson1();
+
+    /**
+     * 添加人脸识别信息
+     * @param personInfo
+     * @param faseImage
+     * @return
+     */
+    Boolean addFace(PersonInfo personInfo, String faseImage);
+
+
+    PersonInfo checkFace(String image);
 
 }

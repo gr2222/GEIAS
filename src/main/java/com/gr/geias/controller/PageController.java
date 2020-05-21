@@ -262,5 +262,14 @@ public class PageController {
     @RequestMapping("/echarts3")
     public String echarts3(){return "/html/echarts3.html";}
 
+
+    @RequestMapping("/fase")
+    public String fase(){return "/html/fase.html";}
+
+    @RequestMapping("/faseLogin")
+    public String faseLogin(){return "/html/faseLogin.html";}
+
+
+
 }
 

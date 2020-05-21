@@ -6,8 +6,11 @@ import com.gr.geias.entity.Specialty;
 import com.gr.geias.enums.EnableStatusEnums;
 import com.gr.geias.service.PersonInfoService;
 import com.gr.geias.service.SpecialtyService;
+import com.gr.geias.util.Faseutil;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -94,4 +97,44 @@ public class PersonInfoController {
             return map;
         }
     }
+
+    @RequestMapping("/addFase")
+    public Map<String, Object> addFase(@RequestParam("file") String file,
+                                       HttpServletRequest request) throws Exception {
+        Map<String, Object> map = new HashMap<>(2);
+        PersonInfo person = (PersonInfo) request.getSession().getAttribute("person");
+        String[] split = file.split(",");
+        Boolean aBoolean = personInfoService.addFace(person, split[1]);
+        if (aBoolean) {
+            request.getSession().setAttribute("person", person);
+            map.put("success", true);
+        } else {
+            map.put("success", false);
+            map.put("errMsg", "添加出错");
+        }
+        return map;
+    }
+
+    @RequestMapping("/faseLogin")
+    public Map<String, Object> faseLogin(@RequestParam("file") String file,
+                                         HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>(2);
+        String[] split = file.split(",");
+        PersonInfo personInfo = personInfoService.checkFace(split[1]);
+        if (personInfo == null) {
+            map.put("success", false);
+            map.put("errMsg", "没有识别到人脸");
+        }else if (personInfo.getPersonId() == null) {
+            map.put("success", false);
+            map.put("errMsg", "没有该用户");
+        }else if (personInfo.getPersonId() != null) {
+            request.getSession().setAttribute("person", personInfo);
+            map.put("success", true);
+        }else {
+            map.put("success", false);
+            map.put("errMsg", "登录失败");
+        }
+        return map;
+    }
+
 }
